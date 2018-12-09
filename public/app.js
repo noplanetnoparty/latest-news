@@ -21,7 +21,7 @@ $.getJSON("/articles", function(data) {
         $("#noteDiv").append("<button data-id='" + data._id + "' id='savenote'>Save Comment</button>");
   
         if (data.note) {
-
+          
           $("#titleinput").val(data.note.title);
           $("#bodyinput").val(data.note.body);
         }
@@ -30,11 +30,11 @@ $.getJSON("/articles", function(data) {
   
 
   $(document).on("click", "#savenote", function() {
-    var newId = $(this).attr("data-id");
+    var thisId = $(this).attr("data-id");
   
     $.ajax({
       method: "POST",
-      url: "/articles/" + newId,
+      url: "/articles/" + thisId,
       data: {
         title: $("#titleinput").val(),
         body: $("#bodyinput").val()
