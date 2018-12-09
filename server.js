@@ -27,7 +27,7 @@ app.get("/scrape", function (req, res) {
 
             var result = {};
 
-            var articleTitle = $(this).children("a").children("h3").text().trim(); //grandchildren
+            var articleTitle = $(this).children("a").children("h3").text().trim();
             if (!articleTitle) {
                 return null
             }
@@ -50,7 +50,7 @@ app.get("/scrape", function (req, res) {
 
               db.Article.create(result)
                 .then(function(dbArticle) {
-                //   console.log(dbArticle);
+                  console.log(dbArticle);
                 })
                 .catch(function(err) {
                   return res.json(err);
