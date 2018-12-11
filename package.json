@@ -12,7 +12,7 @@
     "url": "git+https://github.com/noplanetnoparty/latest-news.git"
   },
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/noplanetnoparty/latest-news/issues"
   },
@@ -22,7 +22,6 @@
     "body-parser": "^1.18.3",
     "cheerio": "^1.0.0-rc.2",
     "express": "^4.16.4",
-    "express-handlebars": "^3.0.0",
     "mongoose": "^5.3.14",
     "morgan": "^1.9.1"
   }
