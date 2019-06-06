@@ -36,18 +36,18 @@ app.get("/scrape", function (req, res) {
 
 
       result.title = articleTitle
-      // console.log(articleTitle)
+      console.log(articleTitle)
 
       var articleLink = $(this).children("a").attr("href");
 
       result.link = articleLink
-      // console.log(articleLink)
+      console.log(articleLink)
 
 
       var articleSummary = $(this).children("a").children(".teaser").text().trim();
 
       result.summary = articleSummary
-      // console.log(articleSummary)
+      console.log(articleSummary)
 
 
       db.Article.create(result)
