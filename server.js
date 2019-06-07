@@ -7,15 +7,17 @@ var logger = require("morgan");
 
 var db = require("./models");
 
-var PORT = 4500;
+var PORT = process.env.PORT || 4500;
 var app = express();
 
+
+app.use(express.static("public"));
 app.use(logger("dev"));
 app.use(bodyParser.urlencoded({
   extended: true
 }));
 var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/latestNews"
-app.use(express.static("public"));
+// app.use(express.static("public"));
 
 mongoose.connect(MONGODB_URI);
 
@@ -23,7 +25,10 @@ mongoose.connect(MONGODB_URI);
 app.get("/scrape", function (req, res) {
 
   axios.get("https://www.npr.org/").then(function (response) {
+
     var $ = cheerio.load(response.data);
+
+    // console.log(response.data);
 
     $("article .story-text").each(function (i, element) {
 
@@ -31,23 +36,28 @@ app.get("/scrape", function (req, res) {
 
       var articleTitle = $(this).children("a").children("h3").text().trim();
       if (!articleTitle) {
-        return null
+        return null;
       }
 
 
       result.title = articleTitle
-      console.log(articleTitle)
+      console.log("Title: :" + result.title)
 
       var articleLink = $(this).children("a").attr("href");
+      if (articleLink.includes("http")) {
+        result.link = articleLink
+      } else {
+        result.link = "https://www.npr.org/" + articleLink;
+      }
 
-      result.link = articleLink
-      console.log(articleLink)
-
+      console.log("Link: " + result.link)
+      // result.link = articleLink
+      // console.log(articleLink)
 
       var articleSummary = $(this).children("a").children(".teaser").text().trim();
 
-      result.summary = articleSummary
-      console.log(articleSummary)
+      console.log("Article Summary: " + articleSummary);
+      result.summary = articleSummary;
 
 
       db.Article.create(result)
@@ -59,7 +69,7 @@ app.get("/scrape", function (req, res) {
         });
     });
 
-    res.send("NPR NEWS SCRAPE COMPLETE");
+    res.send("NPR NEWS SCRAPE COMPLETE <a href='/'>Return to main page</a>");
   });
 });
 
